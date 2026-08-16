@@ -16,10 +16,12 @@ export async function scanProjects(roots: Root[] = ROOTS): Promise<ProjectInfo[]
       continue
     }
     const dirs = entries.filter((e) => e.isDirectory() && !e.name.startsWith('.'))
-    const infos = await Promise.all(
+    const results = await Promise.allSettled(
       dirs.map((e) => buildProjectInfo(path.join(root.path, e.name), root.category)),
     )
-    all.push(...infos)
+    for (const result of results) {
+      if (result.status === 'fulfilled') all.push(result.value)
+    }
   }
   return all
 }
