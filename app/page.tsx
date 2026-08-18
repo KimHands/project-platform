@@ -1,6 +1,7 @@
 import { scanProjects } from '@/lib/scanner/scanProjects'
 import { ProjectCard } from '@/components/ProjectCard'
 import { countErrors, countWarns } from '@/lib/ui/format'
+import { NewProjectDialog } from '@/components/NewProjectDialog'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,9 +16,12 @@ export default async function Home() {
     <main className="mx-auto max-w-6xl p-8">
       <header className="mb-6 flex items-end justify-between">
         <h1 className="text-2xl font-bold">프로젝트 대시보드</h1>
-        <div className="text-sm text-slate-600">
-          규칙 위반 <b className="text-red-600">{totalErrors}</b> · 경고{' '}
-          <b className="text-amber-600">{totalWarns}</b> · 총 {projects.length}개
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-slate-600">
+            규칙 위반 <b className="text-red-600">{totalErrors}</b> · 경고{' '}
+            <b className="text-amber-600">{totalWarns}</b> · 총 {projects.length}개
+          </div>
+          <NewProjectDialog />
         </div>
       </header>
       {groups.map(([cat, label]) => {
