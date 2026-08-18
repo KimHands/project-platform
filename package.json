@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "autostart:install": "bash scripts/autostart/install.sh",
+    "autostart:uninstall": "bash scripts/autostart/uninstall.sh",
+    "autostart:rebuild": "bash scripts/autostart/rebuild.sh"
   },
   "dependencies": {
     "next": "16.3.1",
