@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import fs from 'node:fs/promises'
+import fsp from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { createProject, CreateError } from './createProject'
@@ -58,5 +59,13 @@ describe('createProject', () => {
     await expect(createProject({ name: 'dup', category: 'project' }, roots))
       .rejects.toMatchObject({ code: 'exists' })
     expect(await fs.readFile(path.join(projRoot, 'dup', 'keep.txt'), 'utf8')).toBe('orig')
+  })
+
+  it('mkdir EEXIST(경쟁 상황)도 exists로 매핑된다', async () => {
+    const err = Object.assign(new Error('EEXIST'), { code: 'EEXIST' })
+    const spy = vi.spyOn(fsp, 'mkdir').mockRejectedValueOnce(err)
+    await expect(createProject({ name: 'racey', category: 'project' }, roots))
+      .rejects.toMatchObject({ code: 'exists' })
+    spy.mockRestore()
   })
 })

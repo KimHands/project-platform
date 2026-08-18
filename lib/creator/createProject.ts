@@ -48,6 +48,9 @@ export async function createProject(
       manifestJson({ description: input.description, status: input.status, tags: input.tags }),
     )
   } catch (e) {
+    if ((e as NodeJS.ErrnoException)?.code === 'EEXIST') {
+      throw new CreateError('exists', '같은 이름의 폴더가 이미 있습니다.')
+    }
     throw new CreateError('server', `생성 실패: ${(e as Error).message}`)
   }
 
