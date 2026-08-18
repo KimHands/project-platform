@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { scanProjects } from '@/lib/scanner/scanProjects'
 import { createProject, CreateError } from '@/lib/creator/createProject'
+import type { Status } from '@/lib/scanner/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,8 +23,8 @@ export async function POST(request: Request) {
       name: String(name ?? ''),
       category: category as 'project' | 'career',
       description: description ? String(description) : undefined,
-      status: status as undefined,
-      tags: Array.isArray(tags) ? (tags as string[]) : undefined,
+      status: status as Status | undefined,
+      tags: Array.isArray(tags) ? tags.map(String) : undefined,
     })
     return NextResponse.json(res, { status: 201 })
   } catch (e) {
