@@ -1,8 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import type { RuleViolation } from './types'
-
-const FOLDER_RE = /^[a-z0-9-]+$/
+import { FOLDER_RE } from '@/lib/rules'
 
 async function readFileOrNull(p: string): Promise<string | null> {
   try { return await fs.readFile(p, 'utf8') } catch { return null }
