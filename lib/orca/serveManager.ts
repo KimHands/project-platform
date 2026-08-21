@@ -1,6 +1,6 @@
 import { spawn as realSpawn } from 'node:child_process'
 import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
-import { openSync, closeSync } from 'node:fs'
+import { openSync, closeSync, mkdirSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { isAllowedAddress } from './reachability'
@@ -32,6 +32,7 @@ export interface ServeDeps {
 }
 
 function realSpawnServe(addr: string, logPath: string) {
+  mkdirSync(DIR, { recursive: true })
   const fd = openSync(logPath, 'w')
   const child = realSpawn('orca', ['serve', '--pairing-address', addr, '--mobile-pairing', '--json'],
     { detached: true, stdio: ['ignore', fd, fd] })

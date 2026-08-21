@@ -22,6 +22,6 @@ export function serveParse(text: string): ServeInfo {
   return {
     endpoint,
     browserUrl,
-    mobileUrl: mobileUrl && /^https?:\/\//.test(mobileUrl) ? mobileUrl : mobileUrl,
+    mobileUrl,
   }
 }
