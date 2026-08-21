@@ -1,6 +1,6 @@
 import { spawn as realSpawn } from 'node:child_process'
 import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
-import { openSync } from 'node:fs'
+import { openSync, closeSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { isAllowedAddress } from './reachability'
@@ -35,6 +35,7 @@ function realSpawnServe(addr: string, logPath: string) {
   const fd = openSync(logPath, 'w')
   const child = realSpawn('orca', ['serve', '--pairing-address', addr, '--mobile-pairing', '--json'],
     { detached: true, stdio: ['ignore', fd, fd] })
+  closeSync(fd)
   child.unref()
   return child
 }
@@ -77,7 +78,6 @@ export async function startServe(address: string, deps: ServeDeps = {}): Promise
 
   const child = d.spawn(address, LOG)
   if (!child.pid) throw new ServeError('spawn-failed', 'orca serve 시작 실패')
-  child.unref()
 
   // 로그 폴링(최대 ~15s)으로 접속 URL 확보
   let serve: ServeInfo = { endpoint: null, browserUrl: null, mobileUrl: null }
