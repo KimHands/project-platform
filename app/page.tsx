@@ -2,6 +2,7 @@ import { scanProjects } from '@/lib/scanner/scanProjects'
 import { ProjectCard } from '@/components/ProjectCard'
 import { countErrors, countWarns } from '@/lib/ui/format'
 import { NewProjectDialog } from '@/components/NewProjectDialog'
+import { OrcaPanel } from '@/components/OrcaPanel'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,6 +25,7 @@ export default async function Home() {
           <NewProjectDialog />
         </div>
       </header>
+      <div className="mb-6"><OrcaPanel /></div>
       {groups.map(([cat, label]) => {
         const items = projects.filter((p) => p.category === cat)
         if (items.length === 0) return null
