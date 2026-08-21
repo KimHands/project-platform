@@ -49,6 +49,23 @@ describe('buildProjectInfo', () => {
     const info = await buildProjectInfo(dir, 'project')
     expect(info.stack.map((s) => s.id).sort()).toEqual(['docker', 'next', 'node'])
   })
+
+  it('매니페스트 run을 ProjectInfo.run으로 전달', async () => {
+    const dir = path.join(root, 'runnable')
+    await fs.mkdir(dir)
+    await fs.writeFile(path.join(dir, 'project.json'),
+      JSON.stringify({ run: { cmd: 'npm run dev', port: 3000 } }))
+    const info = await buildProjectInfo(dir, 'project')
+    expect(info.run).toEqual({ cmd: 'npm run dev', port: 3000 })
+    expect(info.runnable).toBe(true)
+  })
+
+  it('run 없으면 run은 undefined', async () => {
+    const dir = path.join(root, 'bare2')
+    await fs.mkdir(dir)
+    const info = await buildProjectInfo(dir, 'project')
+    expect(info.run).toBeUndefined()
+  })
 })
 
 describe('scanProjects', () => {
