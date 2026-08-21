@@ -5,6 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { resolveRun } from './resolveRun'
 import type { RunTarget } from './resolveRun'
+import { FOLDER_RE } from '@/lib/rules'
 
 export interface RunState {
   folderName: string; running: boolean; pid: number | null; port: number | null; startedAt: number | null
@@ -32,7 +33,6 @@ function realSpawnRun(target: RunTarget, logPath: string) {
     shell: true, cwd: target.projectPath, detached: true, stdio: ['ignore', fd, fd],
   })
   try { closeSync(fd) } catch {}
-  child.unref()
   return child
 }
 
@@ -58,6 +58,7 @@ function stopped(folderName: string): RunState {
 }
 
 export async function getRunState(folderName: string, deps: RunDeps = {}): Promise<RunState> {
+  if (!FOLDER_RE.test(folderName)) return stopped(folderName)
   const d = resolveDeps(deps)
   const raw = await d.readState(folderName)
   if (!raw) return stopped(folderName)
@@ -84,6 +85,7 @@ export async function startRun(folderName: string, deps: RunDeps = {}): Promise<
 }
 
 export async function stopRun(folderName: string, deps: RunDeps = {}): Promise<RunState> {
+  if (!FOLDER_RE.test(folderName)) return stopped(folderName)
   const d = resolveDeps(deps)
   const raw = await d.readState(folderName)
   if (raw) {
@@ -97,6 +99,7 @@ export async function stopRun(folderName: string, deps: RunDeps = {}): Promise<R
 }
 
 export async function tailLog(folderName: string, lines = 200, deps: RunDeps = {}): Promise<string> {
+  if (!FOLDER_RE.test(folderName)) return ''
   const d = resolveDeps(deps)
   const text = await d.readLog(folderName)
   return text.split('\n').filter((l) => l.length > 0).slice(-lines).join('\n')

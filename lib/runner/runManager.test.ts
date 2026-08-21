@@ -57,4 +57,25 @@ describe('runManager', () => {
     const { deps } = makeDeps()
     expect(await tailLog('app1', 2, deps)).toBe('line2\nline3')
   })
+
+  // 경로 탐색 방어 테스트
+  it('getRunState: ../가 포함된 folderName은 running:false 반환 (경로 탐색 차단)', async () => {
+    const { deps } = makeDeps()
+    const st = await getRunState('../../evil', deps)
+    expect(st.running).toBe(false)
+    expect(st.folderName).toBe('../../evil')
+  })
+
+  it('tailLog: ../가 포함된 folderName은 빈 문자열 반환 (경로 탐색 차단)', async () => {
+    const { deps } = makeDeps()
+    const result = await tailLog('../../evil', 200, deps)
+    expect(result).toBe('')
+  })
+
+  it('stopRun: ../가 포함된 folderName은 kill 없이 stopped 반환 (경로 탐색 차단)', async () => {
+    const { deps, killed } = makeDeps()
+    const st = await stopRun('../../evil', deps)
+    expect(st.running).toBe(false)
+    expect(killed).toHaveLength(0)
+  })
 })
