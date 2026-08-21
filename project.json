@@ -1,7 +1,7 @@
 {
   "description": "로컬 맥 프로젝트를 웹 대시보드로 시각화하는 통합 플랫폼",
   "status": "active",
-  "progress": 50,
+  "progress": 70,
   "run": { "cmd": "npm run dev", "port": 3000 },
   "tags": ["platform", "dashboard"]
 }
