@@ -44,6 +44,9 @@ export async function buildProjectInfo(
     progress: manifest?.progress ?? null,
     stack: mergeStack(detected, manifest?.stack),
     runnable: Boolean(manifest?.run?.cmd),
+    run: manifest?.run?.cmd
+      ? { cmd: manifest.run.cmd, port: manifest.run.port ?? null }
+      : undefined,
     git,
     rules,
     hasManifest: manifest !== null,

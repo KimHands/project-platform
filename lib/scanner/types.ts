@@ -36,6 +36,7 @@ export interface ProjectInfo {
   progress: number | null
   stack: StackItem[]
   runnable: boolean
+  run?: { cmd: string; port: number | null }
   git: GitInfo | null
   rules: RuleViolation[]
   hasManifest: boolean

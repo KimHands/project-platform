@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { scanProjects } from '@/lib/scanner/scanProjects'
 import { StatusBadge } from '@/components/StatusBadge'
 import { StackIcons } from '@/components/StackIcons'
+import { RunControls } from '@/components/RunControls'
 
 export const dynamic = 'force-dynamic'
 
@@ -48,11 +49,8 @@ export default async function ProjectDetail(
 
       <section className="mb-6">
         <h2 className="mb-2 font-semibold">실행</h2>
-        {p.runnable ? (
-          <button disabled
-            className="cursor-not-allowed rounded bg-slate-200 px-3 py-1.5 text-sm text-slate-500">
-            동작 (곧 지원)
-          </button>
+        {p.runnable && p.run ? (
+          <RunControls folderName={p.folderName} cmd={p.run.cmd} port={p.run.port} projectPath={p.path} />
         ) : <p className="text-sm text-slate-500">실행 명령 미정의</p>}
       </section>
 
