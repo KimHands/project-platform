@@ -43,63 +43,63 @@ export function NewProjectDialog() {
   if (!open) {
     return (
       <button onClick={() => setOpen(true)}
-        className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700">
+        className="accent-gradient rounded-lg px-3 py-1.5 text-sm font-medium text-white transition hover:brightness-110">
         + 새 프로젝트
       </button>
     )
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={() => !busy && setOpen(false)}>
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl"
+      <div className="glass glass-strong w-full max-w-md rounded-2xl p-6"
         onClick={(e) => e.stopPropagation()}>
-        <h2 className="mb-4 text-lg font-semibold">새 프로젝트</h2>
-        <label className="mb-2 block text-sm">
+        <h2 className="mb-4 text-lg font-semibold text-white">새 프로젝트</h2>
+        <label className="mb-2 block text-sm text-dim">
           폴더명
           <input value={name} onChange={(e) => setName(e.target.value)}
-            className="mt-1 w-full rounded border px-2 py-1" placeholder="my-project" />
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white placeholder-white/30 focus:border-fuchsia-400/50 focus:outline-none" placeholder="my-project" />
           {name && !nameValid && (
-            <span className="text-xs text-red-600">소문자·숫자·하이픈만 가능</span>
+            <span className="text-rose-300 text-xs">소문자·숫자·하이픈만 가능</span>
           )}
         </label>
-        <label className="mb-2 block text-sm">
+        <label className="mb-2 block text-sm text-dim">
           카테고리
           <select value={category} onChange={(e) => setCategory(e.target.value as 'project' | 'career')}
-            className="mt-1 w-full rounded border px-2 py-1">
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white placeholder-white/30 focus:border-fuchsia-400/50 focus:outline-none">
             <option value="project">Projects (마감·산출물)</option>
             <option value="career">Career (진로·이력)</option>
           </select>
         </label>
-        <label className="mb-2 block text-sm">
+        <label className="mb-2 block text-sm text-dim">
           설명
           <input value={description} onChange={(e) => setDescription(e.target.value)}
-            className="mt-1 w-full rounded border px-2 py-1" />
+            className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white placeholder-white/30 focus:border-fuchsia-400/50 focus:outline-none" />
         </label>
         <div className="mb-2 grid grid-cols-2 gap-2">
-          <label className="block text-sm">
+          <label className="block text-sm text-dim">
             상태
             <select value={status} onChange={(e) => setStatus(e.target.value)}
-              className="mt-1 w-full rounded border px-2 py-1">
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white placeholder-white/30 focus:border-fuchsia-400/50 focus:outline-none">
               <option value="planning">기획</option>
               <option value="active">진행중</option>
               <option value="paused">중단</option>
               <option value="done">완료</option>
             </select>
           </label>
-          <label className="block text-sm">
+          <label className="block text-sm text-dim">
             태그(쉼표)
             <input value={tags} onChange={(e) => setTags(e.target.value)}
-              className="mt-1 w-full rounded border px-2 py-1" placeholder="web, security" />
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-white placeholder-white/30 focus:border-fuchsia-400/50 focus:outline-none" placeholder="web, security" />
           </label>
         </div>
-        <p className="mb-3 text-xs text-slate-500">생성 위치: <code>{preview}</code></p>
-        {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
+        <p className="mb-3 text-faint text-xs">생성 위치: <code className="font-mono text-dim">{preview}</code></p>
+        {error && <p className="mb-3 text-rose-300 text-sm">{error}</p>}
         <div className="flex justify-end gap-2">
           <button onClick={() => setOpen(false)} disabled={busy}
-            className="rounded px-3 py-1.5 text-sm text-slate-600">취소</button>
+            className="rounded-lg px-3 py-1.5 text-sm text-dim hover:text-white">취소</button>
           <button onClick={submit} disabled={!nameValid || busy}
-            className="rounded bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-40">
+            className="accent-gradient rounded-lg px-3 py-1.5 text-sm text-white disabled:opacity-40">
             {busy ? '생성 중…' : '생성'}
           </button>
         </div>
