@@ -19,6 +19,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html {
+  font-size: 106.25%;
+}
+
 body {
   min-height: 100vh;
   color: var(--text);
