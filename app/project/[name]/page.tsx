@@ -16,56 +16,56 @@ export default async function ProjectDetail(
   if (!p) notFound()
 
   return (
-    <main className="mx-auto max-w-3xl p-8">
-      <Link href="/" className="text-sm text-slate-500 hover:underline">← 대시보드</Link>
+    <main className="mx-auto max-w-3xl px-6 py-10">
+      <Link href="/" className="text-dim text-sm hover:text-white">← 대시보드</Link>
       <div className="mt-3 mb-4 flex items-center gap-3">
-        <h1 className="text-2xl font-bold">{p.name}</h1>
+        <h1 className="text-2xl font-bold text-white">{p.name}</h1>
         <StatusBadge status={p.status} />
       </div>
-      <p className="mb-4 text-sm text-slate-500">{p.path}</p>
-      {p.description && <p className="mb-6">{p.description}</p>}
+      <p className="mb-4 text-faint font-mono text-sm">{p.path}</p>
+      {p.description && <p className="mb-6 text-dim">{p.description}</p>}
 
-      <section className="mb-6">
-        <h2 className="mb-2 font-semibold">기술 스택</h2>
+      <section className="glass mb-4 rounded-2xl p-5">
+        <h2 className="text-dim mb-3 text-sm font-semibold uppercase tracking-widest">기술 스택</h2>
         <StackIcons stack={p.stack} />
       </section>
 
-      <section className="mb-6">
-        <h2 className="mb-2 font-semibold">진행도</h2>
-        <p>{p.progress === null ? '— (매니페스트에 progress 없음)' : `${p.progress}%`}</p>
+      <section className="glass mb-4 rounded-2xl p-5">
+        <h2 className="text-dim mb-3 text-sm font-semibold uppercase tracking-widest">진행도</h2>
+        <p className="text-dim text-sm">{p.progress === null ? '— (매니페스트에 progress 없음)' : `${p.progress}%`}</p>
       </section>
 
-      <section className="mb-6">
-        <h2 className="mb-2 font-semibold">Git</h2>
+      <section className="glass mb-4 rounded-2xl p-5">
+        <h2 className="text-dim mb-3 text-sm font-semibold uppercase tracking-widest">Git</h2>
         {p.git ? (
-          <ul className="text-sm text-slate-700">
-            <li>브랜치: {p.git.branch}</li>
-            <li>최근 커밋: {p.git.lastCommit}</li>
-            <li>커밋 수: {p.git.commitCount}</li>
+          <ul className="text-dim text-sm">
+            <li>브랜치: <span className="font-mono">{p.git.branch}</span></li>
+            <li>최근 커밋: <span className="font-mono">{p.git.lastCommit}</span></li>
+            <li>커밋 수: <span className="font-mono">{p.git.commitCount}</span></li>
             <li>변경사항: {p.git.dirty ? '있음(dirty)' : '없음'}</li>
           </ul>
-        ) : <p className="text-sm text-slate-500">git 저장소 아님</p>}
+        ) : <p className="text-faint text-sm">git 저장소 아님</p>}
       </section>
 
-      <section className="mb-6">
-        <h2 className="mb-2 font-semibold">실행</h2>
+      <section className="glass mb-4 rounded-2xl p-5">
+        <h2 className="text-dim mb-3 text-sm font-semibold uppercase tracking-widest">실행</h2>
         {p.runnable && p.run ? (
           <RunControls folderName={p.folderName} cmd={p.run.cmd} port={p.run.port} projectPath={p.path} />
-        ) : <p className="text-sm text-slate-500">실행 명령 미정의</p>}
+        ) : <p className="text-faint text-sm">실행 명령 미정의</p>}
       </section>
 
-      <section>
-        <h2 className="mb-2 font-semibold">규칙 검사</h2>
+      <section className="glass mb-4 rounded-2xl p-5">
+        <h2 className="text-dim mb-3 text-sm font-semibold uppercase tracking-widest">규칙 검사</h2>
         {p.rules.length === 0 ? (
-          <p className="text-sm text-green-700">위반 없음 ✓</p>
+          <p className="text-emerald-300 text-sm">위반 없음 ✓</p>
         ) : (
           <ul className="space-y-1 text-sm">
             {p.rules.map((r) => (
               <li key={r.id}>
-                <span className={r.level === 'error' ? 'text-red-600' : 'text-amber-600'}>
+                <span className={r.level === 'error' ? 'text-rose-300' : 'text-amber-300'}>
                   [{r.level}]
                 </span>{' '}
-                {r.message}
+                <span className="text-dim">{r.message}</span>
               </li>
             ))}
           </ul>

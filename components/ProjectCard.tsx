@@ -9,28 +9,30 @@ export function ProjectCard({ p }: { p: ProjectInfo }) {
   const warns = countWarns(p.rules)
   return (
     <Link href={`/project/${p.folderName}`}
-      className={`block rounded-xl border p-4 transition hover:shadow-md ${
-        p.hasManifest ? 'bg-white' : 'bg-slate-50 opacity-80'}`}>
-      <div className="mb-2 flex items-center justify-between">
-        <h3 className="font-semibold">{p.name}</h3>
+      className={`glass glass-hover block rounded-2xl p-4 ${p.hasManifest ? '' : 'opacity-60'}`}>
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <h3 className="truncate font-semibold text-white">{p.name}</h3>
         <StatusBadge status={p.status} />
       </div>
-      {p.description && <p className="mb-2 line-clamp-2 text-sm text-slate-600">{p.description}</p>}
+      {p.description && <p className="text-dim mb-3 line-clamp-2 text-sm">{p.description}</p>}
       <div className="mb-3">
         {p.progress === null ? (
-          <span className="text-xs text-slate-400">진행도 —</span>
+          <span className="text-faint font-mono text-xs">진행도 —</span>
         ) : (
-          <div className="h-2 w-full rounded-full bg-slate-200">
-            <div className="h-2 rounded-full bg-green-500" style={{ width: `${p.progress}%` }} />
+          <div className="flex items-center gap-2">
+            <div className="progress-track h-1.5 flex-1 overflow-hidden rounded-full">
+              <div className="progress-fill h-full rounded-full" style={{ width: `${p.progress}%` }} />
+            </div>
+            <span className="text-dim font-mono text-xs">{p.progress}%</span>
           </div>
         )}
       </div>
       <StackIcons stack={p.stack} />
-      <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
-        <span>{p.git ? `${p.git.branch} · ${p.git.lastCommit}` : 'git 없음'}</span>
-        <span className="flex gap-1">
-          {errors > 0 && <span className="rounded bg-red-100 px-1.5 text-red-700">위반 {errors}</span>}
-          {warns > 0 && <span className="rounded bg-amber-100 px-1.5 text-amber-700">경고 {warns}</span>}
+      <div className="text-faint mt-3 flex items-center justify-between font-mono text-xs">
+        <span className="truncate">{p.git ? `${p.git.branch} · ${p.git.lastCommit}` : 'git 없음'}</span>
+        <span className="flex shrink-0 gap-1">
+          {errors > 0 && <span className="rounded bg-rose-500/15 px-1.5 text-rose-300">위반 {errors}</span>}
+          {warns > 0 && <span className="rounded bg-amber-500/15 px-1.5 text-amber-300">경고 {warns}</span>}
         </span>
       </div>
     </Link>

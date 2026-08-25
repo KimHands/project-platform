@@ -39,26 +39,26 @@ export function RunControls({ folderName, cmd, port, projectPath }: {
   const running = state?.running
   return (
     <div className="space-y-2">
-      <p className="text-xs text-slate-500">실행 명령: <code>{cmd}</code> · <span className="break-all">{projectPath}</span></p>
+      <p className="text-faint text-xs">실행 명령: <code className="font-mono">{cmd}</code> · <span className="font-mono break-all">{projectPath}</span></p>
       <div className="flex items-center gap-2">
         {running ? (
           <button onClick={() => act('stop')} disabled={busy}
-            className="rounded bg-red-600 px-3 py-1.5 text-sm text-white disabled:opacity-40">중지</button>
+            className="rounded-lg bg-rose-500/80 px-3 py-1.5 text-sm text-white hover:bg-rose-500">중지</button>
         ) : (
           <button onClick={() => act('start')} disabled={busy}
-            className="rounded bg-slate-900 px-3 py-1.5 text-sm text-white disabled:opacity-40">
+            className="accent-gradient rounded-lg px-3 py-1.5 text-sm font-medium text-white transition hover:brightness-110 disabled:opacity-40">
             {busy ? '시작 중…' : '동작'}
           </button>
         )}
-        {running && <span className="text-xs text-green-700">실행 중 (PID {state!.pid})</span>}
+        {running && <span className="text-emerald-300 text-xs font-mono">실행 중 (PID {state!.pid})</span>}
         {running && port && (
           <a href={`http://localhost:${port}`} target="_blank" rel="noreferrer"
-            className="text-xs text-blue-600 underline">localhost:{port} 열기</a>
+            className="text-xs font-mono text-fuchsia-300 underline hover:text-fuchsia-200">localhost:{port} 열기</a>
         )}
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-rose-300 text-sm">{error}</p>}
       {running && log && (
-        <pre className="max-h-48 overflow-auto rounded bg-slate-900 p-2 text-xs text-slate-100">{log}</pre>
+        <pre className="glass max-h-48 overflow-auto rounded-lg p-3 font-mono text-xs text-emerald-200/90">{log}</pre>
       )}
     </div>
   )

@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-base: #0b0b13;
+  --text: #f4f4f8;
+  --text-dim: rgba(244, 244, 248, 0.66);
+  --text-faint: rgba(244, 244, 248, 0.42);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-strong: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --accent-from: #6366f1;
+  --accent-to: #d946ef;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-base);
+  --color-foreground: var(--text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(55rem 55rem at 12% -10%, rgba(99, 102, 241, 0.22), transparent 60%),
+    radial-gradient(48rem 48rem at 112% 8%, rgba(217, 70, 239, 0.16), transparent 55%),
+    radial-gradient(42rem 42rem at 50% 120%, rgba(34, 211, 238, 0.12), transparent 60%);
+  background-attachment: fixed;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
+.glass-strong { background: var(--glass-bg-strong); }
+.glass-hover { transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+.glass-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.20);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.accent-gradient { background-image: linear-gradient(135deg, var(--accent-from), var(--accent-to)); }
+.accent-text {
+  background-image: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.progress-track { background: rgba(255, 255, 255, 0.08); }
+.progress-fill { background-image: linear-gradient(90deg, var(--accent-from), var(--accent-to)); }
+
+.text-dim { color: var(--text-dim); }
+.text-faint { color: var(--text-faint); }
+
+::selection { background: rgba(217, 70, 239, 0.35); }
