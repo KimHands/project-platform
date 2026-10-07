@@ -17,6 +17,11 @@ if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
   exit 1
 fi
 NODE_BIN="$(dirname "$(command -v node)")"
+# 공인 IP 직결 환경이라 Tailscale 주소에만 바인딩한다 (run.sh와 동일 규칙)
+if ! HOST="$(bash "$APP_DIR/scripts/autostart/tailscale-ip.sh")"; then
+  echo "Tailscale을 켠 뒤 다시 실행하세요." >&2
+  exit 1
+fi
 
 echo "==> 의존성 설치 및 빌드"
 cd "$APP_DIR"
@@ -35,8 +40,8 @@ fi
 launchctl bootstrap "gui/$UID" "$PLIST"
 
 echo "==> 기동 확인 (최대 ~12초)"
-if curl -sf --retry 5 --retry-delay 2 "http://localhost:$PORT" >/dev/null; then
-  echo "✅ 자동실행 등록 완료. http://localhost:$PORT 에서 대시보드가 실행 중입니다."
+if curl -sf --retry 5 --retry-delay 2 "http://$HOST:$PORT" >/dev/null; then
+  echo "✅ 자동실행 등록 완료. http://$HOST:$PORT 에서 대시보드가 실행 중입니다 (Tailscale 전용, localhost 불가)."
   echo "   로그인할 때마다 자동으로 뜹니다."
 else
   echo "⚠️  서비스는 등록됐지만 아직 응답이 없습니다. 로그를 확인하세요:" >&2
