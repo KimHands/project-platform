@@ -46,3 +46,7 @@ next-env.d.ts
 
 # serve state directory
 .project-platform/
+
+# local tool artifacts
+_workspace/
+.playwright-mcp/
